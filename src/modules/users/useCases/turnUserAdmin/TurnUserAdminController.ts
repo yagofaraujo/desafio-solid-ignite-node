@@ -14,8 +14,8 @@ class TurnUserAdminController {
       });
 
       return response.json(user);
-    } catch (errorMessage) {
-      return response.status(404).json({ error: errorMessage });
+    } catch (error) {
+      return response.status(404).json({ error: String(error) });
     }
   }
 }

@@ -1,0 +1,325 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SOLID",
+    "description": "This is an API SOLID",
+    "version": "1.0.0",
+    "contact": {
+      "email": "yagoferreira556@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "User Name",
+                  "email": "username@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "2fe67b7b-f005-4642-834b-19256cb93d9a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "User Name"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "username@email.com"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2022-04-26T02:50:15.648Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2022-04-26T02:50:15.648Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Email already exists!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "required": true
+            }
+          }
+        ],
+        "description": "List all categories",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    },
+                    "example": [
+                      {
+                        "id": "2fe67b7b-f005-4642-834b-19256cb93d9a",
+                        "name": "User Name",
+                        "admin": "false",
+                        "email": "username@email.com",
+                        "created_at": "2022-04-26T02:50:15.648Z",
+                        "update_at": "2022-04-26T02:50:15.648Z"
+                      },
+                      {
+                        "id": "5zx90f13-f005-1234-105e-19256cb93d9a",
+                        "name": "User Name 2",
+                        "admin": "false",
+                        "email": "username2@email.com",
+                        "created_at": "2022-04-10T02:50:15.648Z",
+                        "update_at": "2022-04-10T02:50:15.648Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "To list users you have to be an user and have admin status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Can not show user list from a non-existent user"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Show user profile",
+        "parameters": [
+          {
+            "name": "user_id",
+            "description": "User ID that profile will be returned",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "2fe67b7b-f005-4642-834b-19256cb93d9a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "User Name"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "username@email.com"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2022-04-26T02:50:15.648Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2022-04-26T02:50:15.648Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "User not exists!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Turn an user as admin",
+        "parameters": [
+          {
+            "name": "user_id",
+            "decription": "User ID that will become admin",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "2fe67b7b-f005-4642-834b-19256cb93d9a"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "User Name"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "true"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "username@email.com"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "2022-04-26T02:50:15.648Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "2022-04-26T02:50:15.648Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "User not exists!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
